@@ -1,0 +1,16 @@
+ldapsearch -x -b '' -s base '(objectclass=*)' namingContexts
+
+# Finding the Current RootDN Information
+sudo ldapsearch -H ldapi:// -LLL -Q -Y EXTERNAL -b "cn=config" "(olcRootDN=*)" dn olcRootDN olcRootPW | tee ~/newpasswd.ldif
+
+# modify above command's output to a password reset ldiff file:
+dn: olcDatabase={2}mdb,cn=config
+#olcRootDN: cn=Manager,dc=my-domain,dc=com
+changetype: modify
+replace: olcRootPW
+olcRootPW: {SSHA}eMB1NrtNfRY9ZLGp+J9GtESayTYb1jf3
+
+
+# reset rootDn password with ldif file
+sudo ldapmodify -H ldapi:// -Y EXTERNAL -f reset-rootDN-password.ldif
+

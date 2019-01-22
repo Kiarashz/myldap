@@ -1,0 +1,3 @@
+dn: olcDatabase={2}mdb,cn=config
+olcRootDN: cn=Manager,dc=my-domain,dc=com
+olcRootPW: {SSHA}5X59UPJiueZC1c/KC7GN9yhfK2HNkyYb
