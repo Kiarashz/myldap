@@ -14,3 +14,16 @@ olcRootPW: {SSHA}eMB1NrtNfRY9ZLGp+J9GtESayTYb1jf3
 # reset rootDn password with ldif file
 sudo ldapmodify -H ldapi:// -Y EXTERNAL -f reset-rootDN-password.ldif
 
+# ldif to update database
+[kiarash@thinkpad ldap]$ cat olcDatabase2.ldif
+dn: olcDatabase={2}mdb,cn=config
+changetype: modify
+replace: olcSuffix
+olcSuffix: dc=tacos,dc=com
+-
+replace: olcRootDN
+olcRootDN: cn=Manager,dc=tacos,dc=com
+-
+replace: olcRootPW
+olcRootPW:: e1NTSEF9ZU1CMU5ydE5mUlk5WkxHcCtKOUd0RVNheVRZYjFqZjM=
+

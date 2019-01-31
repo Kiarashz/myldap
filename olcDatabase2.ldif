@@ -1,0 +1,10 @@
+dn: olcDatabase={2}mdb,cn=config
+changetype: modify
+replace: olcSuffix
+olcSuffix: dc=tacos,dc=com
+-
+replace: olcRootDN
+olcRootDN: cn=Manager,dc=tacos,dc=com
+-
+replace: olcRootPW
+olcRootPW:: e1NTSEF9ZU1CMU5ydE5mUlk5WkxHcCtKOUd0RVNheVRZYjFqZjM=
