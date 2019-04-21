@@ -27,3 +27,5 @@ olcRootDN: cn=Manager,dc=tacos,dc=com
 replace: olcRootPW
 olcRootPW:: e1NTSEF9ZU1CMU5ydE5mUlk5WkxHcCtKOUd0RVNheVRZYjFqZjM=
 
+# search from base
+ldapsearch -x -W -D 'cn=admin,dc=tacos,dc=com' -b 'dc=tacos,dc=com' -s sub '(objectclass=*)'
