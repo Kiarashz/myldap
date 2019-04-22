@@ -29,3 +29,5 @@ olcRootPW:: e1NTSEF9ZU1CMU5ydE5mUlk5WkxHcCtKOUd0RVNheVRZYjFqZjM=
 
 # search from base
 ldapsearch -x -W -D 'cn=admin,dc=tacos,dc=com' -b 'dc=tacos,dc=com' -s sub '(objectclass=*)'
+
+ldapsearch -x -W -D 'cn=admin,dc=tacos,dc=com' -b 'ou=Groups,dc=tacos,dc=com'  "(&(cn=*)(uniqueMember=uid=barbara,dc=tacos,dc=com))" cn
