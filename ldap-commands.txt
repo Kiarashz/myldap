@@ -1,3 +1,7 @@
+# Update schema
+ldapadd -x -W -D 'cn=admin,dc=tacos,dc=com' -f /etc/openldap/schema/cosine.ldif 
+ldapadd -x -W -D 'cn=admin,dc=tacos,dc=com' -f /etc/openldap/schema/inetorgperson.ldif
+
 ldapsearch -x -b '' -s base '(objectclass=*)' namingContexts
 
 # Finding the Current RootDN Information
