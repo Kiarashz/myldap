@@ -2,36 +2,24 @@
 sudo ldapadd -H ldapi:// -Y EXTERNAL -f /etc/openldap/schema/cosine.ldif 
 sudo ldapadd -H ldapi:// -Y EXTERNAL -f /etc/openldap/schema/inetorgperson.ldif
 
-ldapsearch -x -b '' -s base '(objectclass=*)' namingContexts
-
 # Finding the Current RootDN Information
 sudo ldapsearch -H ldapi:// -LLL -Q -Y EXTERNAL -b "cn=config" "(olcRootDN=*)" dn olcRootDN olcRootPW | tee ~/newpasswd.ldif
 
-# modify above command's output to a password reset ldiff file:
-dn: olcDatabase={2}mdb,cn=config
-#olcRootDN: cn=Manager,dc=my-domain,dc=com
-changetype: modify
-replace: olcRootPW
-olcRootPW: {SSHA}eMB1NrtNfRY9ZLGp+J9GtESayTYb1jf3
+# configure ldap server
+sudo ldapmodify -H ldapi:// -Y EXTERNAL -f configure.ldif
 
+# upload data to ldap server
+ldapadd -D "cn=Manager,dc=ldap,dc=example,dc=com" -W -H  ldapi:/// -f sample.ldif
 
-# reset rootDn password with ldif file
-sudo ldapmodify -H ldapi:// -Y EXTERNAL -f reset-rootDN-password.ldif
+# backup config
+sudo slapcat -n 0 -l backup.config.ldif
+# backup data
+sudo slapcat -l backup.data.ldif
 
-# ldif to update database
-[kiarash@thinkpad ldap]$ cat olcDatabase2.ldif
-dn: olcDatabase={2}mdb,cn=config
-changetype: modify
-replace: olcSuffix
-olcSuffix: dc=tacos,dc=com
--
-replace: olcRootDN
-olcRootDN: cn=Manager,dc=tacos,dc=com
--
-replace: olcRootPW
-olcRootPW:: e1NTSEF9ZU1CMU5ydE5mUlk5WkxHcCtKOUd0RVNheVRZYjFqZjM=
-
+# Search commands
+ldapsearch -x -b '' -s base '(objectclass=*)' namingContexts
 # search from base
 ldapsearch -x -W -D 'cn=admin,dc=tacos,dc=com' -b 'dc=tacos,dc=com' -s sub '(objectclass=*)'
-
+# all groups' common name that user with uid=barbara is a member of them
 ldapsearch -x -W -D 'cn=admin,dc=tacos,dc=com' -b 'ou=Groups,dc=tacos,dc=com'  "(&(cn=*)(uniqueMember=uid=barbara,dc=tacos,dc=com))" cn
+
